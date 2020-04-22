@@ -1,0 +1,509 @@
+{
+	"info": {
+		"_postman_id": "2bd9b2f9-cd1a-424a-952f-92c1ba3cdc5a",
+		"name": "Sanity Test Suite - reqres.in",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Request",
+			"item": [
+				{
+					"name": "LIST USERS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cde40159-874c-4c91-9f4d-7ac455630728",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"test = JSON.parse(responseBody)",
+									"value = test.data[2].first_name\t",
+									"",
+									"console.log(value)",
+									"pm.environment.set(\"userName\", value);",
+									"",
+									"pm.test(\"id is greater than 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.id).is.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/users?page=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SINGLE USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d99ffd64-0704-4b2f-9c94-8b88a3c43dbd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"id is greater than 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.id).is.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SINGLE USER NOT FOUND",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d7125df1-aa61-4cb3-8274-41a52d4f1c08",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/23",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"23"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST <RESOURCE>",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02fd7a3e-8ba3-4404-bd38-95b7704f4288",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/unknown",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"unknown"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Post Request",
+			"item": [
+				{
+					"name": "CREATE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dbf5ee86-9931-4d71-850f-03f045447caf",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER - SUCCESSFUL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4921578-0405-4104-a36a-81e75d0b17d7",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202,200]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER - UNSUCCESSFUL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"peter@klaven\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN - SUCCESSFUL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Transfer-Encoding",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/login/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN - UNSUCCESSFUL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"peter@klaven\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Put Request",
+			"item": [
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "746daef3-c7c1-4b69-a8b3-bc9eec89b4ef",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{userName}}\",\r\n    \"job\": \"zion resident\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PATCH Request",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Delete Request",
+			"item": [
+				{
+					"name": "DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "52c37e31-fcaf-403a-8c16-49e5b9f764be",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f03a8aef-6c5c-402c-83f4-e2701eb2f763",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "41d55f39-4c97-4ce9-b9b1-fa36748228b1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e8cf7fdc-ef78-48c0-92ed-8fb235c007fb",
+			"key": "url",
+			"value": "https://reqres.in",
+			"type": "string"
+		},
+		{
+			"id": "aae84995-50f5-4cd5-8f54-9cfebcd7b56b",
+			"key": "userName",
+			"value": "aarti",
+			"type": "string",
+			"disabled": true
+		}
+	],
+	"protocolProfileBehavior": {}
+}
