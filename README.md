@@ -1,6 +1,6 @@
-# Postman – Exploratory Test Case
+# Postman â€“ Exploratory Test Case
 
-Conduct an exploratory testing cycle of the reqres.in API based on the product requirements
+Conduct an exploratory testing cycle of theÂ reqres.inÂ API based on the product requirements
 
 # Constraints
 
@@ -34,7 +34,3 @@ Open Postman. Click on View >> show postman console
 Click on file >> New runner window >> select workspace >> select collection >> start run
 
 
-
-# sqa-interview-aarti
-# automation
-# automation1
