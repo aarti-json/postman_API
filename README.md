@@ -35,3 +35,5 @@ Click on file >> New runner window >> select workspace >> select collection >> s
 
 
 
+# sqa-interview-aarti
+# automation
