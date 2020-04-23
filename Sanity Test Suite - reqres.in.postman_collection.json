@@ -12,9 +12,19 @@
 					"name": "LIST USERS",
 					"event": [
 						{
+							"listen": "prerequest",
+							"script": {
+								"id": "677144d7-f897-47da-9252-d14c6bc3d376",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
 							"listen": "test",
 							"script": {
-								"id": "cde40159-874c-4c91-9f4d-7ac455630728",
+								"id": "6e80f990-0f29-4927-86cf-55d497ee3f1f",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -29,7 +39,12 @@
 									"pm.test(\"id is greater than 0\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.data.id).is.above(0);",
-									"});"
+									"});",
+									"",
+									"",
+									"console.log(\"Validate User List\");",
+									"",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -78,7 +93,19 @@
 									"pm.test(\"id is greater than 0\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.data.id).is.above(0);",
-									"});"
+									"});",
+									"",
+									"console.log('test global variable is ' + pm.globals.get('userCount'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5f218798-7d01-4ab2-950b-4572cde1e2fa",
+								"exec": [
+									"pm.variables.set('local_testCount', 2);"
 								],
 								"type": "text/javascript"
 							}
@@ -88,7 +115,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://reqres.in/api/users/2",
+							"raw": "https://reqres.in/api/users/{{local_testCount}}",
 							"protocol": "https",
 							"host": [
 								"reqres",
@@ -97,7 +124,7 @@
 							"path": [
 								"api",
 								"users",
-								"2"
+								"{{local_testCount}}"
 							]
 						}
 					},
@@ -111,9 +138,13 @@
 							"script": {
 								"id": "d7125df1-aa61-4cb3-8274-41a52d4f1c08",
 								"exec": [
+									"console.log(\"Validate Single User Not Found \");",
 									"pm.test(\"Status code is 404\", function () {",
 									"    pm.response.to.have.status(404);",
-									"});"
+									"});",
+									"",
+									"",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -144,6 +175,8 @@
 							"script": {
 								"id": "02fd7a3e-8ba3-4404-bd38-95b7704f4288",
 								"exec": [
+									"console.log(\"Validate List is created \");",
+									"",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});"
@@ -417,7 +450,54 @@
 		},
 		{
 			"name": "PATCH Request",
-			"item": [],
+			"item": [
+				{
+					"name": "Patch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7943b518-7dc6-4ce1-8a2c-af624e0a259e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{userName}}\",\r\n    \"job\": \"zion resident\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"protocolProfileBehavior": {}
 		},
 		{
@@ -492,17 +572,16 @@
 	],
 	"variable": [
 		{
-			"id": "e8cf7fdc-ef78-48c0-92ed-8fb235c007fb",
+			"id": "2242ca22-05f7-4074-bc13-34787ad6228e",
 			"key": "url",
 			"value": "https://reqres.in",
 			"type": "string"
 		},
 		{
-			"id": "aae84995-50f5-4cd5-8f54-9cfebcd7b56b",
+			"id": "47e22676-d878-4c31-9105-93f661486b32",
 			"key": "userName",
 			"value": "aarti",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		}
 	],
 	"protocolProfileBehavior": {}
